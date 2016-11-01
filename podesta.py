@@ -5,18 +5,17 @@ import datetime
 
 url = "https://wikileaks.org/podesta-emails/get/"
 results = {}
-n = 1
+n = 23727
 start = str(datetime.datetime.now())
 
 while True:
     try:
         fetch = urllib2.urlopen(url +str(n)).read()
         email = dkim.DKIM(fetch)
-    except urllib2.URLError as url_error:
-        break
-    try:
         results[n] = email.verify()
         print("email", n, email.verify())
+    except urllib2.URLError as url_error:
+        break
     except dkim.DKIMException as dkim_error:
         results[n] = str(dkim_error)
         print("email", n, dkim_error)
